@@ -1,0 +1,33 @@
+.statistics-container {
+    padding: 10px;
+}
+
+.statistics-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-item strong {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-item span {
+    font-size: 1em;
+    color: #333;
+}

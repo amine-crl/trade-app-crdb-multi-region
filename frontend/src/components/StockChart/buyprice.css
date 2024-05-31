@@ -1,0 +1,8 @@
+.price-box1 {
+    font-size: .75em;
+    color: white;
+    background-color: rgb(74, 56, 190);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgb(221, 221, 221);
+  }

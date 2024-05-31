@@ -1,0 +1,44 @@
+.about-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas: 
+        'title'
+        'company-desc'
+        'company-stats';
+    gap: 0.5em 1em;
+    padding: 10px;
+}
+
+.about-box {
+    padding: 2px;
+}
+
+.title {
+    grid-area: title;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.company-desc {
+    grid-area: company-desc;
+    font-size: 1em;
+    line-height: 1.5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.company-stats {
+    grid-area: company-stats;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1em;
+    padding-top: 20px;
+}
+
+.company-stats div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

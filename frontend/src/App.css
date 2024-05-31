@@ -1,0 +1,92 @@
+.app-container {
+  display: grid;
+  grid-template-rows: 60px 400px 250px 200px;
+  grid-template-columns: 50px 2fr 1fr 50px;
+  gap: 0.5em 1em;
+  grid-template-areas: 
+      'header header header header' /* 'logo search navbar navbar' */
+      'side chart purchase aside'
+      'side about purchase aside'
+      'side stats space aside';
+  /* flex-direction: column; */
+  justify-content: flex-start; /*align on the row */
+  /* align-items: flex-start;   /*align on the column */
+  padding: 10px;
+  /* border: 1px solid black; */
+  margin: 10px;
+  height: 100vh; /* vh sets height based on the page */
+}
+
+.app-box {
+  padding: 10px; /* top/bottom or left/right or top/right/bottom/left */
+  border: 1px solid rgb(221, 221, 221); /*size type color */
+  /* margin: 10px; /* top/bottom or left/right or top/right/bottom/left */
+  border-radius: 5px;
+  box-shadow: 1px 20px 35px rgb(238, 238, 238);
+}
+
+.header {
+  grid-area: header;
+}
+
+.chart {
+  /* flex: 1; /* if 1 then allows it to grow to as much space as possible */
+  grid-area : chart;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  margin-right: auto;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.price-box {
+  font-size: .75em;
+  color: white;
+  background-color: rgb(74, 56, 190);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(221, 221, 221);
+}
+
+.cart {
+  /* flex: 1; /* if 1 then allows it to grow to as much space as possible */
+  grid-area : purchase;
+  z-index: 999;
+}
+
+.about {
+  /* flex: 1; /* if 1 then allows it to grow to as much space as possible */
+  grid-area : about;
+}
+
+.stats {
+  /* flex: 1; /* if 1 then allows it to grow to as much space as possible */
+  grid-area : stats;
+}
+
+.options {
+  /* flex: 1; /* if 1 then allows it to grow to as much space as possible */
+  grid-area : options;
+}
+
+.footer {
+  /* flex: 1; /* if 1 then allows it to grow to as much space as possible */
+  grid-area : footer;
+  background-color: #d9d9d9;
+}
+
+@media (max-width:550px) {
+  .home-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 50px 400px 100px 250px 50px;
+      gap: 0.5em;
+      grid-template-areas:
+      'header' 
+      'chart'
+      'describe'
+      'purchase'
+      'footer';
+  }
+}

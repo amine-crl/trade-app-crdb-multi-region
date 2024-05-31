@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend server for interacting with CockroachDB",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "decimal.js": "^10.4.3",
+    "express": "^4.17.1",
+    "pg": "^8.7.1"
+  },
+  "author": "",
+  "license": "ISC"
+}

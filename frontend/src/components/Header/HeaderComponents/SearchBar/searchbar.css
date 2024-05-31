@@ -1,0 +1,11 @@
+.search-container{
+    display: flex;
+}
+
+.search-input{
+    flex-grow: 1;
+    padding: 20px;
+    border: 1px solid rgb(238, 238, 238);
+    border-radius: 5px;
+    box-shadow: 1px 5px 25px rgb(238, 238, 238);
+}
