@@ -154,6 +154,12 @@ This demo showcases a trading application leveraging CockroachDB's multi-region 
   DURATION=600 ITERATIONS=10000000 CONCURRENCY=4 docker-compose up -d trade-order-generator
   ```
 
+### Bonus Features (Developer Experience)
+- JSONB data renders frontend (Instruments Table) (Document workload/Mongo)
+- Connection pooling with node.js
+- Dockerized & automated installation 
+
+
 # Trade app SQL Info 
 
 - Use the `trade.sql` file to create schema 
