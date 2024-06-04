@@ -10,10 +10,28 @@ This demo showcases a trading application leveraging CockroachDB's multi-region 
 
 ![alt text](image.png)
 
-### Requirements
-- Docker
-- Docker Compose
-- Colima version 0.6.9+ for Mac users 
+# Prerequisites
+
+Docker compatible [*nix OS](https://en.wikipedia.org/wiki/Unix-like) and [Docker](https://docs.docker.com/get-docker) installed.
+
+Note : Please have 8-12 vCPU*, 20GB RAM and 20GB storage for the multi-region setup to function properly. Adjust the resources based on your requirements.
+
+***MacOS Users:*** If you don't have or can't get Docker Desktop then install docker and buildx using homebrew
+I use docker with [colima](https://github.com/abiosoft/colima):
+
+`brew install docker`
+
+`brew install docker-compose`
+
+`brew install colima`
+
+`colima start --cpu 12 --memory 20`
+
+```
+$ colima list
+PROFILE    STATUS     ARCH       CPUS    MEMORY    DISK     RUNTIME    ADDRESS
+default    Running    aarch64    8       20GiB     60GiB    docker
+```
 
 ### Architecture 
 ![alt text](Trade-app-arch.png)
