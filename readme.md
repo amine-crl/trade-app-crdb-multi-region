@@ -8,7 +8,7 @@ This demo showcases a trading application leveraging CockroachDB's multi-region 
 - Multi-Region Database: CockroachDB instances deployed in US West, US East, and EU West regions, demonstrating multi-region support and fault tolerance.
 - Python Workloads: Scripts to simulate trading account creation, order processing, and trade execution.
 
-![alt text](image.png)
+![alt text](/trade-app-multi-region/assets/image.png)
 
 # Prerequisites
 
@@ -34,7 +34,7 @@ default    Running    aarch64    8       20GiB     60GiB    docker
 ```
 
 ### Architecture 
-![alt text](Trade-app-arch.png)
+![alt text](/trade-app-multi-region/assets/Trade-app-arch.png)
 
 
 # Setup 
@@ -93,7 +93,7 @@ default    Running    aarch64    8       20GiB     60GiB    docker
 
   Here is the schema for the trade-app-ui tradedb database.
 
-  ![alt text](schema.png)
+  ![alt text](/trade-app-multi-region/assets/schema.png)
 
 
 - ### Check Backend is running
@@ -110,7 +110,7 @@ default    Running    aarch64    8       20GiB     60GiB    docker
 
   Here is the application logic and how it works with tradedb database in cockroachdb. 
 
-  ![alt text](app-logic.png)
+  ![alt text](/trade-app-multi-region/assets/app-logic.png)
 
 - ### Verify orders have been created
 
