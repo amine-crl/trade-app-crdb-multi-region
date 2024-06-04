@@ -66,6 +66,12 @@ This demo showcases a trading application leveraging CockroachDB's multi-region 
 - ### Create TradeDB Scehma and some account data for the trade-app-ui
 
   Go to the `sql` folder and use the `trade.sql` file and run all the sql statements to create the tradeDB database, tables and schema required by the app. 
+  Note : you will need CockroachDB Enterprise license for some of the features, replace the org_name and license in the below statement. Everything else can be used as is.
+
+  ```
+  SET CLUSTER SETTING cluster.organization = 'org_name';
+  SET CLUSTER SETTING enterprise.license = 'org_license';
+  ```
 
   Here is the schema for the trade-app-ui tradedb database.
 

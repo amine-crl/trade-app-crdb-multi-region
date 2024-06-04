@@ -1,0 +1,19 @@
+# Complied output
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Visual Studio Code
+.vscode/
+
+# Miscellaneous
+.DS_Store
+
+# Others
+test.js
