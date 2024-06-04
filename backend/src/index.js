@@ -47,7 +47,7 @@ app.get('/api/data', async (req, res) => {
   try {
     for (const pool of pools) {
       try {
-        const result = await queryWithRetry(pool, `SELECT symbol, current_price, details FROM instruments WHERE symbol IN ('NVDA','JPM','NFLX','GOOGL','DIS','MSFT','AAPL')`);
+        const result = await queryWithRetry(pool, `SELECT symbol, current_price, details,name FROM instruments WHERE symbol IN ('NVDA','JPM','NFLX','GOOGL','DIS','MSFT','AAPL')`);
         return res.json(result.rows);
       } catch (err) {
         console.error('Query failed:', err);

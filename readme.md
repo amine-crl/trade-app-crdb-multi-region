@@ -1,6 +1,6 @@
 # Multi-Region CRDB Supported Trading App 
 
-This demo showcases a trading application leveraging CockroachDB's multi-region capabilities to ensure high availability and low latency. The application comprises a frontend React app, a backend Node.js service, and multiple CockroachDB instances across different regions. It also includes Python scripts for generating trading workloads.
+This demo showcases a trading application leveraging CockroachDB's multi-region capabilities to ensure high availability and low latency. The application comprises a frontend React app, a backend Node.js service, and multiple CockroachDB instances across different regions along with Loadbalancers for each region. It also includes Python scripts for generating trading workloads created using PGWorkload.
 
 ### Features
 - Frontend: Built with React.js, providing a responsive UI for trading activities.
@@ -13,7 +13,11 @@ This demo showcases a trading application leveraging CockroachDB's multi-region 
 ### Requirements
 - Docker
 - Docker Compose
-- Colima for Mac users
+- Colima version 0.6.9+ for Mac users 
+
+### Architecture 
+![alt text](Trade-app-arch.png)
+
 
 # Setup 
 - Clone the Repository: git clone <repo-url>
@@ -21,7 +25,7 @@ This demo showcases a trading application leveraging CockroachDB's multi-region 
 ```
 docker-compose up -d
 ```
-- Initialize Database: Run the initialization script ```docker-compose up crdb-init```
+- Optiona Step: Initialize Database: Run the initialization script ```docker-compose up crdb-init```
 -  ### To Setup the infrastructure run `docker-compose up`
 
    Infrastructure that will be created
@@ -48,11 +52,11 @@ docker-compose up -d
 
 - ### Start and create some sample data for generating orders for accounts
 
-  `DURATIONS=15 ITERATIONS=100000 CONCURRENCY=4 docker-compose up -d trade-accounts-generator` 
+  `DURATION=15 ITERATIONS=100000 CONCURRENCY=4 docker-compose up -d trade-accounts-generator` 
 
 - ### Start Generating orders
 
-   `DURATION=600 ITERATIONS=10000000 CONCURRENCY=4 docker-compose up -d trade-order-generator `
+   `DURATION=600 ITERATIONS=10000000 CONCURRENCY=4 docker-compose up -d trade-order-generator`
 
 # Demo Scenarios 
 
@@ -73,6 +77,22 @@ docker-compose up -d
 - Network issues : Kill Load balancer 
   `docker-compose stop haproxy-us-west-2` 
 
+### Consistency
+
+- Create a new buy or sell order on Trade App for any of the available stocks. You will notice that whenever you create a new order either buy or sell from the price will go up and down by + 10cents. 
+
+Showcasing consitency in writes as well as during reads after writes. 
+
+- the Live ticker on price changes when workload changes price on the available orders
+
+### Scale
+
+- Run the below order-generator workload to scale up the cluster , change the duration, iterations and concurrency as required. 
+
+```
+DURATION=600 ITERATIONS=10000000 CONCURRENCY=4 docker-compose up -d trade-order-generator
+```
+
 # Trade app SQL Info 
 
 - Use the `trade.sql` file to create schema 
@@ -90,8 +110,8 @@ docker-compose up -d
 
 # useful cockroach commands 
 -  `docker exec -it 663ccd025ecf /cockroach/cockroach node status --insecure` 
-- `docker exec -it 663ccd025ecf /cockroach/cockroach init --insecure`
-- `docker exec -it a65e856de737 /cockroach/cockroach sql --insecure`
+- `docker exec -it c3372cffa3a7 /cockroach/cockroach init --insecure`
+- `docker exec -it c3372cffa3a7 /cockroach/cockroach sql --insecure`
 
 ### Setup users, accounts and stock instruments
 

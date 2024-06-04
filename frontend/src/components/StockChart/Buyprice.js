@@ -1,11 +1,11 @@
 import React from 'react';
 import './buyprice.css';
 
-function Buyprice({ currentPrice }) {
+function Buyprice({ currentPrice, selectedStockName }) {
 
   return (
     <div className="price-box1">
-        Buy Price : {currentPrice}
+        {selectedStockName} {} ${currentPrice}
     </div>
   );
 }
