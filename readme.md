@@ -81,24 +81,23 @@ default    Running    aarch64    8       20GiB     60GiB    docker
   Go to the `sql` folder and use the `trade.sql` file and run all the sql statements to create the tradeDB database, tables and schema required by the app. 
   Note : you will need CockroachDB Enterprise license for some of the features, replace the org_name and license in the below statement. Everything else can be used as is.
 
-  ```
-
   Here is the schema for the trade-app-ui tradedb database.
 
 ![alt text](/assets/schema.png)
 
   - #### Setup CRDB Enterprise License
-  ```
-  SET CLUSTER SETTING cluster.organization = 'org_name';
-  SET CLUSTER SETTING enterprise.license = 'org_license';
-  ```
+    ```
+    SET CLUSTER SETTING cluster.organization = 'org_name';
+    SET CLUSTER SETTING enterprise.license = 'org_license';
+    ```
 
   - #### Setup Regional survivabilty 
-  ```
-  ALTER DATABASE trade_db SURVIVE REGION FAILURE;
-  ALTER DATABASE trade_db SET PRIMARY REGION "us-west-2";
-  ALTER DATABASE trade_db ADD REGION "us-east-1";
-  ALTER DATABASE trade_db ADD REGION "eu-west-1";
+    ```
+    ALTER DATABASE trade_db SURVIVE REGION FAILURE;
+    ALTER DATABASE trade_db SET PRIMARY REGION "us-west-2";
+    ALTER DATABASE trade_db ADD REGION "us-east-1";
+    ALTER DATABASE trade_db ADD REGION "eu-west-1";
+    ```
 
 - ### Start the Backend server
 
@@ -162,8 +161,6 @@ default    Running    aarch64    8       20GiB     60GiB    docker
    docker logs <container_id>
    
    ```
-
-
 
    Feel free to change the variables as required. 
   
