@@ -238,7 +238,10 @@ default    Running    aarch64    8       20GiB     60GiB    docker
 - Remove all docker volumens `docker volume rm $(docker volume ls -q)`
 - Remove all docker networks `docker network rm $(docker network ls -q)`
 - Prune unused networks, containers, images and volumens `docker system prune`
-- docker-compose stop backend
+- stop a service `docker-compose stop [service name]`
+- start a service `docker-compose start [service_name]`
+- if you want to stop and remove the container `docker-compose down [service_name]`
+- if docker-compose file is modified or u want to re-create container then use `docker-compose up -d [service_name]`
 
 # Useful cockroach commands 
 -  `docker exec -it <container id> /cockroach/cockroach node status --insecure` 
