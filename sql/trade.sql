@@ -81,8 +81,8 @@ CREATE TABLE trades (
 ); /* add constraint on forgein key  */
 
 /* Multi-region and enteprise setup */
-SET CLUSTER SETTING cluster.organization = 'AWS-Petere_Williams';
-SET CLUSTER SETTING enterprise.license = 'crl-0-EIfzlbQGGAIiE0FXUy1QZXRlcmVfV2lsbGlhbXM'; 
+SET CLUSTER SETTING cluster.organization = 'org_name';
+SET CLUSTER SETTING enterprise.license = 'license'; 
 ALTER DATABASE trade_db SURVIVE REGION FAILURE;
 ALTER DATABASE trade_db SET PRIMARY REGION "us-west-2";
 ALTER DATABASE trade_db ADD REGION "us-east-1";
