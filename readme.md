@@ -49,24 +49,19 @@ default    Running    aarch64    8       20GiB     60GiB    docker
    Start Services using Docker Compose to start the services.
 
     ```
-    docker-compose up -d
+    docker-compose up -d crdb1-us-west-2 crdb2-us-west-2 crdb3-us-west-2 crdb1-us-east-1 crdb2-us-east-1 crdb3-us-east-1 crdb1-eu-west-1 crdb2-eu-west-1 crdb3-eu-west-1 haproxy-us-west-2 haproxy-us-east-1 haproxy-eu-west-1 crdb-init
     ```
 
    This will start to create the below Infrastructure : 
    - 9 node cockroachDB cluster across 3 regions -> us-west-2,us-east-1,eu-west-1
    - 3 HAProxy load balancers per region
-   - Frontend - Trading/Order Processing App React App
-   - Backend - node app 
-   - Trading Account workload generator
-   - Trading Order workload generatro 
 
    P.S -  You will see errors for trade-account-generator and trade-order-generator service, these may fail because CRDB will be getting setup. We will set it up in just a bit.
 
 - ### Verify CockroachDB is initialized 
 
-  Check CockroachDB is running by going to `http://0.0.0.0:8080/#/overview/list` you should see 9 nodes. But, currently this enterprise features are not enabled. If the DB Console URL doesnt work that means cockroachdb has not been initalized. Run the below command by adding container Id of any crdb node.
+  Check CockroachDB is running by going to `http://0.0.0.0:8084/#/overview/list` you should see 9 nodes. But, currently this enterprise features are not enabled. If the DB Console URL doesnt work that means cockroachdb has not been initalized. Run the below command by adding container Id of any crdb node.
 
-  
   ```
   docker exec -it <crdb_container_id> /cockroach/cockroach init --insecure
   ```  
@@ -87,26 +82,43 @@ default    Running    aarch64    8       20GiB     60GiB    docker
   Note : you will need CockroachDB Enterprise license for some of the features, replace the org_name and license in the below statement. Everything else can be used as is.
 
   ```
-  SET CLUSTER SETTING cluster.organization = 'org_name';
-  SET CLUSTER SETTING enterprise.license = 'org_license';
-  ```
 
   Here is the schema for the trade-app-ui tradedb database.
 
   ![alt text](/assets/schema.png)
 
+  - #### Setup CRDB Enterprise License
+  ```
+  SET CLUSTER SETTING cluster.organization = 'org_name';
+  SET CLUSTER SETTING enterprise.license = 'org_license';
+  ```
 
-- ### Check Backend is running
+  - #### Setup Regional survivabilty 
+  ```
+  ALTER DATABASE trade_db SURVIVE REGION FAILURE;
+  ALTER DATABASE trade_db SET PRIMARY REGION "us-west-2";
+  ALTER DATABASE trade_db ADD REGION "us-east-1";
+  ALTER DATABASE trade_db ADD REGION "eu-west-1";
 
-  Open `http://localhost:5000/api/data` to see data is available. 
 
-  If the backend server is not up, then run `docker-compose up backend` in terminal this should start it up and try the url again.
+- ### Start the Backend server
 
-- ### Check Frontend is running
+  ```
+  docker-compose up -d backend
+  ```
 
-  Open `http://localhost/` to see if the app is running. Create a few orders either buy or sell and submit the orders. On submission the button will change colors. 
+  Open `http://localhost:5000/api/data` to see data is available.
 
-  P.S - Notice you will see the price change on stock by +10/-10 Cents depending on buy / sell order. 
+
+- ### Start the trade-app app
+
+  ```
+  docker-compose up -d frontend
+  ```
+
+    - Open `http://localhost/` to see if the app is running. Create a few orders either buy or sell and submit the orders. On submission the button will change colors.  
+
+    - P.S - Notice you will see the price change on stock by +10/-10 Cents depending on buy / sell order. 
 
   Here is the application logic and how it works with tradedb database in cockroachdb. 
 
@@ -114,17 +126,27 @@ default    Running    aarch64    8       20GiB     60GiB    docker
 
 - ### Verify orders have been created
 
-  The easiest way to check the order has been created is by checking the order_id in the browser console for the app or by running a simple sql statemenr like below.
+    The easiest way to check the order has been created is by checking the order_id in the browser console for the app or by running a simple sql statemenr like below.
 
-  ```
-  select * from trades where symbol = 'APPL';
-  ```
+    ```
+    select * from trades where symbol = 'APPL';
+    ```
+
+    ```
+    select symbol,current_price from instruments where symbol = <add order symbol>;
+
+    select * from trades where symbol=<add order symbol>;
+    ```
+
+    You can also get the order_id in the browser console.
+
+     ![alt text](/assets/order_id_console.png)
 
   This will show the orders that are created, change symbol to whichever stock you used to create the order. 
 
 - ### Start and create some sample data for generating orders for accounts
 
-  This will create some sample account data for 15s
+  This will create some sample account data for 15s. Which is good enough to get the workload started, if you want more accounts created just run this longer. 
 
   ```
   DURATION=15 ITERATIONS=100000 CONCURRENCY=4 docker-compose up -d trade-accounts-generator
@@ -136,12 +158,27 @@ default    Running    aarch64    8       20GiB     60GiB    docker
   To understand how this works look `tradeorder.py` in `workloads` folder.
 
    ```
-   DURATION=600 ITERATIONS=10000000 CONCURRENCY=4 docker-compose up -d trade-order-generator
+   DURATION=600 ITERATIONS=10000000 CONCURRENCY=8 docker-compose up -d trade-order-generator
+   
+   docker logs <container_id>
+   
    ```
+
+
 
    Feel free to change the variables as required. 
   
 -----------
+
+- ### check multi-region surviability goal
+
+  ```
+  SHOW ZONE CONFIGURATION FOR DATABASE trade_db;
+  ```
+  
+  This will show that there are 5 replicas and 5 num_voters. This means regional surviability is set. 
+  
+  Note : this means regional by table for primary region is set. We have not optimizes for reads and writes.   
 
 # Demo Scenarios 
 
@@ -150,17 +187,23 @@ default    Running    aarch64    8       20GiB     60GiB    docker
 
    Drop a node - while the workload is running and create a new order from the app
 
-  `docker-compose stop crdb3-us-west-2`
+  ```
+  docker-compose stop crdb3-us-west-2 
+  or
+  docker-compose down crdb1-us-west-2 crdb2-us-west-2
+  ```
 
-- Infrastructure issue : Region down 
+  verify the node is down by check dbconsole and then check if the transactions are still processing.
 
-  Drop all nodes in us-west-2 : while the workload is running and create a new order from the app
+  The DB console will look as below. 
 
-  `docker-compose stop crdb1-us-west-2`
-  `docker-compose stop crdb1-us-west-2`
+- Network loadbalancer or network down : 
+  
+  ```
+  docker-compose stop haproxy-us-east-1
+  ``` 
 
-- Network issues : Kill Load balancer 
-  `docker-compose stop haproxy-us-west-2` 
+  Run a transaction through the UI 
 
 ### Consistency
 
@@ -175,7 +218,9 @@ default    Running    aarch64    8       20GiB     60GiB    docker
 - Run the below order-generator workload to scale up the cluster , change the duration, iterations and concurrency as required. 
 
   ```
-  DURATION=600 ITERATIONS=10000000 CONCURRENCY=4 docker-compose up -d trade-order-generator
+  DURATION=300 ITERATIONS=10000000 CONCURRENCY=8 docker-compose up -d trade-order-generator-uw2
+  DURATION=300 ITERATIONS=10000000 CONCURRENCY=8 docker-compose up -d trade-order-generator-ew1
+  DURATION=300 ITERATIONS=10000000 CONCURRENCY=8 docker-compose up -d trade-order-generator-ue1
   ```
 
 ### Bonus Features (Developer Experience)

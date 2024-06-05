@@ -1,92 +1,94 @@
 .cart-container {
-    padding:20px;
+  padding:20px;
 }
 
 .title {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-bottom: 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .form-group {
-    border-top: 1px solid #ddd;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  border-top: 1px solid #ddd;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .label {
-    font-size: 1.25em;
-    padding: 10px;
-    margin-bottom: 5px;
+  font-size: 1.25em;
+  padding: 10px;
+  margin-bottom: 5px;
 }
 
 .select {
-    padding: 10px;
-    margin-left: 105px;
-    border: 1px solid rgb(221, 221, 221);
-    border-radius: 5px;
-    background-color: white;
+  padding: 10px;
+  margin-left: 105px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 5px;
+  background-color: white;
 
 }
 
 .input {
-    padding: 10px;
-    margin-left: 100px;
-    border: 1px solid rgb(221, 221, 221);
-    border-radius: 5px;
-    background-color: white;
+  padding: 10px;
+  margin-left: 100px;
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 5px;
+  background-color: white;
 }
 
 
 .label-box {
-    padding: 10px; /* top/bottom or left/right or top/right/bottom/left */
-    /* margin: 10px; /* top/bottom or left/right or top/right/bottom/left */
-    border-radius: 5px;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
+  padding: 10px; /* top/bottom or left/right or top/right/bottom/left */
+  /* margin: 10px; /* top/bottom or left/right or top/right/bottom/left */
+  border-radius: 5px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
 
 .bottom-box {
-    display: flex;
-    padding: 10px; /* top/bottom or left/right or top/right/bottom/left */
-    margin-top: 50px;
-    border-bottom: 1px solid #ddd;
-    font-weight: bold;
-    color:rgb(74, 56, 190);
-    justify-content: space-between;
-  }
+  display: flex;
+  padding: 10px; /* top/bottom or left/right or top/right/bottom/left */
+  margin-top: 50px;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+  color:rgb(74, 56, 190);
+  justify-content: space-between;
+}
 
 .est-box {
-    padding: 10px; /* top/bottom or left/right or top/right/bottom/left */
-    /* border: 1px solid rgb(221, 221, 221); /*size type color */
-    border-radius: 5px;
-    margin-top: 10px;
-    font-weight: bold;
-  }
+  display: flex;
+  padding: 10px; /* top/bottom or left/right or top/right/bottom/left */
+  /* border: 1px solid rgb(221, 221, 221); /*size type color */
+  border-radius: 5px;
+  margin-top: 10px;
+  font-weight: bold;
+  justify-content: space-between;
+}
 
 .button-box {
-    display: flex;
-    border-radius: 5px;
-    margin-top: 50px;
-    font-weight: bold;
-    justify-content: center;
-  }
+  display: flex;
+  border-radius: 5px;
+  margin-top: 50px;
+  font-weight: bold;
+  justify-content: center;
+}
 
 .button {
-    background-color: rgb(74, 56, 190);
-    border-radius: 25px;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    flex-grow: 1;
-  }
+  background-color: rgb(74, 56, 190);
+  border-radius: 25px;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  flex-grow: 1;
+}
 
 .submit-label {
-    font-size: 0.9em;
-    font-weight: bold;
-    margin-bottom: 5px;
+  font-size: 0.9em;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 

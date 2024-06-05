@@ -83,9 +83,11 @@ CREATE TABLE trades (
 /* Multi-region and enteprise setup */
 SET CLUSTER SETTING cluster.organization = 'AWS-Petere_Williams';
 SET CLUSTER SETTING enterprise.license = 'crl-0-EIfzlbQGGAIiE0FXUy1QZXRlcmVfV2lsbGlhbXM'; 
-ALTER DATABASE trade_db PRIMARY REGION "us-west-2"; 
-ALTER DATABASE trade_db ADD REGION "us-east-1"; 
+ALTER DATABASE trade_db SURVIVE REGION FAILURE;
+ALTER DATABASE trade_db SET PRIMARY REGION "us-west-2";
+ALTER DATABASE trade_db ADD REGION "us-east-1";
 ALTER DATABASE trade_db ADD REGION "eu-west-1";
+
 
 /* insert some kickstarted data */
 
@@ -263,3 +265,47 @@ VALUES (
     }'
 );
 
+INSERT INTO instruments (
+    symbol, name, current_price, created_at, details
+    )
+    VALUES (
+        'NVDA', 'NVIDIA Corp.', 1102.24, '2024-05-28 10:00:00', 
+        '{
+          "description": "NVIDIA Corp. engages in the design and manufacture of computer graphics processors, chipsets, and related multimedia software. It operates through the following segments: Graphics Processing Unit (GPU) and Compute & Networking.",
+          "ceo": "Jen Hsun Huang",
+          "employees": 29600,
+          "headquarters": "Santa Clara, California",
+          "founded": 1993,
+          "high_today": 1149.39,
+          "low_today": 1085.20,
+          "open_price": 1102.24,
+          "high_52_week": 1149.39,
+          "low_52_week": 366.35,
+          "average_volume": 41.48,
+          "volume": 64.87
+          }'
+        );
+
+INSERT INTO instruments (
+        symbol, name, current_price, created_at, details
+      )
+      VALUES (
+        'AAPL', 'Apple Inc.', 191.51, '2024-05-28 10:00:00', 
+        '{
+          "description": "Apple, Inc. engages in the design, manufacture, and sale of smartphones, personal computers, tablets, wearables and accessories, and other varieties of related services. It operates through the following geographical segments: Americas, Europe, Greater China, Japan, and Rest of Asia Pacific.",
+          "ceo": "Timothy Donald Cook",
+          "employees": 161000,
+          "headquarters": "Cupertino, California",
+          "founded": 1976,
+          "market_cap": "2.92T",
+          "pe_ratio": 29.54,
+          "dividend_yield": 0.51,
+          "average_volume": 49.76,
+          "high_today": 194.81,
+          "low_today": 189.10,
+          "open_price": 191.51,
+          "high_52_week": 199.62,
+          "low_52_week": 164.08,
+          "volume": 52.21
+        }'
+      );

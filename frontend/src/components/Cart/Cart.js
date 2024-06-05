@@ -35,6 +35,9 @@ function Cart({ data, selectedStock, currentPrice, onStockChange }) {
             setButtonColor('#0dd1a7');
             const response = await axios.post('http://localhost:5000/api/submitOrder', params);
             console.log('Order submitted:', response.data);
+            setOrderType('');
+            setShares('');
+            setEstimatedCost('');
             setTimeout(() => {setButtonColor('#4a38be');},1000);
           } catch (error) {
             console.error('Error submitting order:', error);

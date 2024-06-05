@@ -5,8 +5,6 @@ services:
     build: ./frontend
     ports:
       - "80:80"
-    depends_on:
-      - backend
     networks:
       - us-west-2-net
       - us-east-1-net
@@ -17,15 +15,10 @@ services:
     build: ./backend
     ports:
       - "5000:5000"
-    depends_on:
-      - haproxy-us-west-2
-      - haproxy-us-east-1
-      - haproxy-eu-west-1
     networks:
       - us-west-2-net
       - us-east-1-net
       - eu-west-1-net
-
 
   # CockroachDB nodes for us-west-2 region
   crdb1-us-west-2:
@@ -160,16 +153,6 @@ services:
   crdb-init:
     image: cockroachdb/cockroach:v23.1.2
     command: ["/cockroach/cockroach init --insecure"]
-    depends_on:
-      - crdb1-us-west-2
-      - crdb2-us-west-2
-      - crdb3-us-west-2
-      - crdb1-us-east-1
-      - crdb2-us-east-1
-      - crdb3-us-east-1
-      - crdb1-eu-west-1
-      - crdb2-eu-west-1
-      - crdb3-eu-west-1
     networks:
       - us-west-2-net
       - us-east-1-net
@@ -178,84 +161,103 @@ services:
   haproxy-us-west-2:
     image: haproxy:latest
     hostname: haproxy-us-west-2
-    depends_on:
-      - crdb1-us-west-2
-      - crdb2-us-west-2
-      - crdb3-us-west-2
     ports:
       - "26276:26256"
     volumes:
       - ./haproxy-us-west-2.cfg:/usr/local/etc/haproxy/haproxy.cfg
     networks:
       - us-west-2-net
+      - us-east-1-net
+      - eu-west-1-net
 
   haproxy-us-east-1:
     image: haproxy:latest
     hostname: haproxy-us-east-1
-    depends_on:
-      - crdb1-us-east-1
-      - crdb2-us-east-1
-      - crdb3-us-east-1
     ports:
       - "26277:26256"
     volumes:
       - ./haproxy-us-east-1.cfg:/usr/local/etc/haproxy/haproxy.cfg
     networks:
       - us-east-1-net
+      - eu-west-1-net
+      - us-west-2-net
 
   haproxy-eu-west-1:
     image: haproxy:latest
     hostname: haproxy-eu-west-1
-    depends_on:
-      - crdb1-eu-west-1
-      - crdb2-eu-west-1
-      - crdb3-eu-west-1
     ports:
       - "26278:26256"
     volumes:
       - ./haproxy-eu-west-1.cfg:/usr/local/etc/haproxy/haproxy.cfg
     networks:
       - eu-west-1-net
+      - us-east-1-net
+      - us-west-2-net
 
 # Workload generators 
   trade-accounts-generator:
     image: python:3.9-slim
     volumes:
-      - ./workloads:/usr/src/app
+      - ./workloadGenerator:/usr/src/app
     working_dir: /usr/src/app
     environment:
       CONCURRENCY: ${CONCURRENCY:-8}
       DURATION: ${DURATION:-5}
       ITERATIONS: ${ITERATIONS:-50000}
     command: ["sh", "-c", "pip install -r requirements.txt && pgworkload run -w tradeaccounts.py -c $CONCURRENCY --url 'postgres://root@haproxy-us-west-2:26256/trade_db?sslmode=disable&application_name=birdtrade' -d $DURATION -i $ITERATIONS"]
-    depends_on:
-      - haproxy-us-west-2
-      - haproxy-us-east-1
-      - haproxy-eu-west-1
     networks:
       - us-west-2-net
       - us-east-1-net
       - eu-west-1-net
   
-  # Workload generators 
-  trade-order-generator:
+  # Workload generators 1
+  trade-order-generator-uw2:
     image: python:3.9-slim
     volumes:
-      - ./workloads:/usr/src/app
+      - ./workloadGenerator:/usr/src/app
     working_dir: /usr/src/app
     environment:
       CONCURRENCY: ${CONCURRENCY:-8}
       DURATION: ${DURATION:-5}
       ITERATIONS: ${ITERATIONS:-50000}
-    command: ["sh", "-c", "pip install -r requirements.txt && pgworkload run -w tradeorder.py -c $CONCURRENCY --url 'postgres://root@haproxy-us-east-1:26256/trade_db?sslmode=disable&application_name=birdtrade,' -d $DURATION -i $ITERATIONS"]
-    depends_on:
-      - haproxy-us-west-2
-      - haproxy-us-east-1
-      - haproxy-eu-west-1
+    command: ["sh", "-c", "pip install -r requirements.txt && pgworkload run -w tradeorder.py -c $CONCURRENCY --url 'postgres://root@haproxy-us-west-2:26256/trade_db?sslmode=disable&application_name=birdtrade' -d $DURATION -i $ITERATIONS"]
     networks:
       - us-west-2-net
       - us-east-1-net
       - eu-west-1-net
+
+  # Workload generators 2
+  trade-order-generator-ue1:
+    image: python:3.9-slim
+    volumes:
+      - ./workloadGenerator:/usr/src/app
+    working_dir: /usr/src/app
+    environment:
+      CONCURRENCY: ${CONCURRENCY:-8}
+      DURATION: ${DURATION:-5}
+      ITERATIONS: ${ITERATIONS:-50000}
+    command: ["sh", "-c", "pip install -r requirements.txt && pgworkload run -w tradeorder.py -c $CONCURRENCY --url 'postgres://root@haproxy-us-east-1:26256/trade_db?sslmode=disable&application_name=birdtrade' -d $DURATION -i $ITERATIONS"]
+    networks:
+      - us-west-2-net
+      - us-east-1-net
+      - eu-west-1-net
+  
+  # Workload generators 3
+  trade-order-generator-ew1:
+    image: python:3.9-slim
+    volumes:
+      - ./workloadGenerator:/usr/src/app
+    working_dir: /usr/src/app
+    environment:
+      CONCURRENCY: ${CONCURRENCY:-8}
+      DURATION: ${DURATION:-5}
+      ITERATIONS: ${ITERATIONS:-50000}
+    command: ["sh", "-c", "pip install -r requirements.txt && pgworkload run -w tradeorder.py -c $CONCURRENCY --url 'postgres://root@haproxy-eu-west-1:26256/trade_db?sslmode=disable&application_name=birdtrade' -d $DURATION -i $ITERATIONS"]
+    networks:
+      - us-west-2-net
+      - us-east-1-net
+      - eu-west-1-net
+  
 
 networks:
   us-west-2-net:
