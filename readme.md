@@ -85,7 +85,7 @@ default    Running    aarch64    8       20GiB     60GiB    docker
 
   Here is the schema for the trade-app-ui tradedb database.
 
-  ![alt text](/assets/schema.png)
+![alt text](/assets/schema.png)
 
   - #### Setup CRDB Enterprise License
   ```
@@ -99,7 +99,6 @@ default    Running    aarch64    8       20GiB     60GiB    docker
   ALTER DATABASE trade_db SET PRIMARY REGION "us-west-2";
   ALTER DATABASE trade_db ADD REGION "us-east-1";
   ALTER DATABASE trade_db ADD REGION "eu-west-1";
-
 
 - ### Start the Backend server
 
