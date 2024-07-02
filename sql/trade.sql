@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS trade_db;
 CREATE DATABASE trade_db;
 
 -- CockroachDB only
@@ -79,15 +80,6 @@ CREATE TABLE trades (
     quantity INT NOT NULL,
     trade_ts TIMESTAMPTZ DEFAULT now()
 ); /* add constraint on forgein key  */
-
-/* Multi-region and enteprise setup */
-SET CLUSTER SETTING cluster.organization = 'org_name';
-SET CLUSTER SETTING enterprise.license = 'license'; 
-ALTER DATABASE trade_db SURVIVE REGION FAILURE;
-ALTER DATABASE trade_db SET PRIMARY REGION "us-west-2";
-ALTER DATABASE trade_db ADD REGION "us-east-1";
-ALTER DATABASE trade_db ADD REGION "eu-west-1";
-
 
 /* insert some kickstarted data */
 
