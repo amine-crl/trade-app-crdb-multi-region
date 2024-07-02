@@ -10,11 +10,7 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-const connectionStrings = [
-  'postgres://root@haproxy-us-west-2:26256/trade_db?sslmode=disable&application_name=birdtrade',
-  'postgres://root@haproxy-us-east-1:26256/trade_db?sslmode=disable&application_name=birdtrade',
-  'postgres://root@haproxy-eu-west-1:26256/trade_db?sslmode=disable&application_name=birdtrade'
-];
+const connectionStrings = ['postgresql://amine.cluster.sko-iam-demo.com:26257/trade_db?sslmode=disable&application_name=birdtrade'];
 
 const createPool = (connectionString) => {
   const pool = new Pool({
