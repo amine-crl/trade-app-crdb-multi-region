@@ -5,7 +5,7 @@ const Decimal = require('decimal.js');
 const config = require('config');
 
 const app = express();
-const port = config.get('server.port');
+const port = 5000;
 
 // Middleware
 app.use(cors());
