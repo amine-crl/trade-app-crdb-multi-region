@@ -1,8 +1,8 @@
 {
   "db": {
-    "connection_strings": ["postgresql://root@amine.cluster.sko-iam-demo.com:26257/trade_db?sslmode=disable&application_name=birdtrade"]
+    "connection_strings": ["CONNECTION_STRING"]
   },
   "server": {
-    "port": 5000
+    "port": BACKEND_PORT
   }
 }
