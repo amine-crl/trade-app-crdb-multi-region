@@ -6,6 +6,7 @@ import About from './components/About/About';
 import Stockstats from './components/StockStats/Stockstats';
 import Stockchart from './components/StockChart/Stockchart';
 import Buyprice from './components/StockChart/Buyprice';
+import config from "./config.json";
 import axios from 'axios';
 import './App.css';
 const Decimal = require('decimal.js');
@@ -18,6 +19,7 @@ function App() {
   const [currentPrice, setCurrentPrice] = useState(0);
   const [currentchartPrice, setcurrentchartPrice] = useState(190);
   const [details , setDetails] = useState('');
+  const getUrl = `http://${config.host}:${config.port}/api/data`;
 
   /* Backend connect */
   /* useEffect(() => {
@@ -29,7 +31,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/data');
+        const response = await axios.get(getUrl);
         setData(response.data);
         // Find the price of the selected stock
         const selectedStockData = response.data.find(stock => stock.symbol === selectedStock);
