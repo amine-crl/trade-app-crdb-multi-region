@@ -3,10 +3,10 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "80:80"
+      - "FRONTEND_PORT:80"
 
   # Node.js backend service
   backend:
     build: ./backend
     ports:
-      - "5000:5000"
+      - "BACKEND_PORT:5000"
