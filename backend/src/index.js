@@ -2,15 +2,16 @@ const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
 const Decimal = require('decimal.js');
+const config = require('config');
 
 const app = express();
-const port = 5000;
+const port = config.get('server.port');
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-const connectionStrings = ['postgresql://root@amine.cluster.sko-iam-demo.com:26257/trade_db?sslmode=disable&application_name=birdtrade'];
+const connectionStrings = config.get('db.connection_strings');
 
 const createPool = (connectionString) => {
   const pool = new Pool({
