@@ -19,7 +19,7 @@ function App() {
   const [currentPrice, setCurrentPrice] = useState(0);
   const [currentchartPrice, setcurrentchartPrice] = useState(190);
   const [details , setDetails] = useState('');
-  const getUrl = `http://${config.host}:${config.port}/api/data`;
+  const getUrl = `http://${config.server.host}:${config.server.port}/api/data`;
 
   /* Backend connect */
   /* useEffect(() => {
