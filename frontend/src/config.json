@@ -1,6 +1,6 @@
 {
   "server": {
-    "host" : "52.40.254.77",
-    "port": 5000
+    "host" : "BACKEND_HOST",
+    "port": BACKEND_PORT
   }
 }
