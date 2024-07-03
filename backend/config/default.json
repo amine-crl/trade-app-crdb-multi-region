@@ -1,8 +1,5 @@
 {
   "db": {
     "connection_strings": ["CONNECTION_STRING"]
-  },
-  "server": {
-    "port": BACKEND_PORT
   }
 }
