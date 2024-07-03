@@ -8,7 +8,7 @@ function Cart({ data, selectedStock, currentPrice, onStockChange }) {
     const [shares, setShares] = useState('');
     const [estimatedCost, setEstimatedCost] = useState(0);
     const [buttonColor, setButtonColor] = useState('#4a38be'); 
-    const submitUrl = `http://${config.host}:${config.port}/api/submitOrder`;
+    const submitUrl = `http://${config.server.host}:${config.server.port}/api/submitOrder`;
 
     const handleOrderTypeChange = (e) => {
         setOrderType(e.target.value);
