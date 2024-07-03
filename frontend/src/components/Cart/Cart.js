@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './cart.css';
+import config from "../../config.json";
 import axios from 'axios';
 
 function Cart({ data, selectedStock, currentPrice, onStockChange }) {
@@ -7,7 +8,8 @@ function Cart({ data, selectedStock, currentPrice, onStockChange }) {
     const [shares, setShares] = useState('');
     const [estimatedCost, setEstimatedCost] = useState(0);
     const [buttonColor, setButtonColor] = useState('#4a38be'); 
-    
+    const submitUrl = `http://${config.host}:${config.port}/api/submitOrder`;
+
     const handleOrderTypeChange = (e) => {
         setOrderType(e.target.value);
         updateURL('orderType', e.target.value);
@@ -33,7 +35,7 @@ function Cart({ data, selectedStock, currentPrice, onStockChange }) {
         };
         try {
             setButtonColor('#0dd1a7');
-            const response = await axios.post('http://localhost:5000/api/submitOrder', params);
+            const response = await axios.post(submitUrl, params);
             console.log('Order submitted:', response.data);
             setOrderType('');
             setShares('');
