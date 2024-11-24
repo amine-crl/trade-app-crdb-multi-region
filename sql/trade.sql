@@ -1,4 +1,4 @@
-INSERT INTO system.locations VALUES ('region', 'us-east-1', 37.478397, -76.453077), ('region', 'eu-west-3', 48.8575, 2.3514), ('region', 'ap-northeast-1', 35.6764, 139.6500);
+UPSERT INTO system.locations VALUES ('region', 'us-east-1', 37.478397, -76.453077), ('region', 'eu-west-3', 48.8575, 2.3514), ('region', 'ap-northeast-1', 35.6764, 139.6500);
 
 DROP DATABASE IF EXISTS trade_db;
 CREATE DATABASE trade_db;
