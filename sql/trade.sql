@@ -86,7 +86,7 @@ CREATE TABLE trades (
 
 /* insert some kickstarted data */
 
-INSERT INTO users (user_id, username, password_hash, email, created_at, updated_at) VALUES
+INSERT INTO users (user_id, username, password_hash, email, created_at, updated_at, city) VALUES
 ('550e8400-e29b-41d4-a716-446655440000', 'john_doe', 'hashed_password1', 'john@example.com', now(), now(), 'New York');
 
 INSERT INTO accounts (account_id, user_id, account_nbr, balance, created_at, updated_at) VALUES
